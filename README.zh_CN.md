@@ -1,18 +1,18 @@
 # egg-cute-swagger
 
-The Swagger plugin provides Swagger and Validate functions for egg. It generates Swagger documents and parameter (egg-validate) rules by configuring Controller annotations.
+Swagger 插件是为 egg 提供 Swagger以及Validate 功能, 通过配置Controller注解, 生成Swagger文档以及parameter(egg-validate)规则
 
-Refer to [egg-swagger-doc]
+此插件参考 [egg-swagger-doc]
 
-## Install
+## 安装
 
 ```bash
 $ npm i egg-cute-swagger --save
 ```
 
-## Configuration
+## 配置
 
-Change `${app_root}/config/plugin.js` to enable Swagger plugin:
+通过 `config/plugin.js` 配置启动 Swagger 插件:
 
 ```ts
 exports.swagger = {
@@ -21,7 +21,7 @@ exports.swagger = {
 };
 ```
 
-Configure swagger information in `${app_root}/config/config.default.js`:
+在 `config/config.${env}.js` 配置各个环境的Swagger信息：
 
 ```ts
 exports.swagger = {
@@ -51,14 +51,14 @@ exports.swagger = {
         },
       },
     },
-    // It is necessary to add { isRef: true } in responses. After annotation parsing, the response data will be replaced with { isRef: true }. It is also possible not to configure responses.
+    // 必需在responses中加入{ isRef: true }, 注解解析后会将response的数据替换掉{ isRef: true }, 也可不配置responses
     responses: {
       200: { schema: { type: 'object', properties: { code: { type: 'number', example: 0 }, msg: { type: 'string', example: 'success' }, data: { isRef: true } } }, description: 'OK', },
       401: { schema: { type: 'object', properties: { code: { type: 'number', example: 401 }, msg: { type: 'string', example: 'UNAUTHORIZED' }, } }, description: 'UNAUTHORIZED', },
       403: { schema: { type: 'object', properties: { code: { type: 'number', example: 403 }, msg: { type: 'string', example: 'FORBIDDEN' }, } }, description: 'FORBIDDEN', },
       500: { schema: { type: 'object', properties: { code: { type: 'number', example: 500 }, msg: { type: 'string', example: 'INTERNAL ERROR' }, } }, description: 'INTERNAL ERROR', },
     },
-    // Swagger interfaces and pages need to exclude authentication verification, you can use url.startWith in middleware auth to filter out these URLs
+    // Swagger接口与页面需要排除鉴权验证, 可在middleware auth中用url.startWith过滤掉这些URL
     noAuthUrl: [
       '/swagger-ui',
       '/swagger-resources/',
@@ -67,27 +67,26 @@ exports.swagger = {
       '/favicon-',
       '/oauth2-redirect',
     ],
-    // Whether to enable authentication entry on the Swagger page
+    // Swagger页面上是否开启鉴权入口
     enableSecurity: false,
-    // Whether Swagger is enabled. If it is not enabled, the Swagger page cannot be opened, but the Validate rules will be loaded
+    // Swagger是否启用, 不启用时无法打开Swagger页面，但会加载Validate的规则
     enable: true,
   },
-  // load into app, default is open
+  // 是否加载到 app 上，默认开启
   app: true,
-  // load into agent, default is close
+  // 是否加载到 agent 上，默认关闭
   agent: false,
 };
 ```
 
-## user guide
+## 使用指南
 
 ```ts
 import { Controller } from 'egg';
 import { prefix, router, permission, request, response, deprecated, ignore, security, produce, consume } from 'egg-cute-router';
 
-// If deprecated, ignore, security, produce, consume are configured on the Controller, all routes in this Controller will use this configuration by default. 
-// If the route has a custom configuration, the custom configuration will be used first.
-// Note: The following cases are the highest configurations, except for router, all other configurations are optional.
+// 若在Controller上配置deprecated, ignore, security, produce, consume 则此Controller中所有的路由都会默认此配置, 如果路由有定制配置时以定制配置为准
+// 注：以下案例是最高配置, 除router外都是选配
 @prefix('/home', 'summary', 'desc', 'group')
 @deprecated()
 @ignore()
@@ -112,7 +111,7 @@ export default class HomeController extends Controller {
   @permission('index')
   public async index() {
     console.log(this.app.swagger.rules)
-    // The validate method requires the egg-validate plugin to be installed
+    // validate 需要安装egg-validate插件
     this.app.swagger.validate({ body: ctx.request.body, query: ctx.request.query }, this.ctx);
     this.ctx.body = 'Hi World!';
   }
@@ -120,7 +119,7 @@ export default class HomeController extends Controller {
 
 ```
 
-After the program starts, add "/swagger-ui.html" after the URL to enter the Swagger management page
+程序启动后打开在网址后加上 /swagger-ui.html 进入Swagger管理页
 
 ## Questions & Suggestions
 
