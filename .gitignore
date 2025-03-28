@@ -14,12 +14,5 @@ logs/
 dist/
 typings/
 
-app/**/*.js
-test/**/*.js
-config/**/*.js
-app/**/*.map
-test/**/*.map
-config/**/*.map
-
 package-lock.json
 .package-lock.json
