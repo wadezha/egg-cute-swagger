@@ -113,6 +113,8 @@ export default class HomeController extends Controller {
   public async index() {
     console.log(this.app.swagger.rules)
     // The validate method requires the egg-validate plugin to be installed
+    // The following is the validate return value. You can also pass in the errorHandle function. This function is optional. When calling, pass in the validate return value and ctx
+    // [{ message: 'should be one of 1, 2, 3', code: 'invalid', field: 'userType', position: 'body' }, { message: 'required', field: 'userId', code: 'missing_field', position: 'query' }]
     this.app.swagger.validate({ body: ctx.request.body, query: ctx.request.query }, this.ctx);
     this.ctx.body = 'Hi World!';
   }

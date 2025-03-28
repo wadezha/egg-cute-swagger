@@ -112,7 +112,9 @@ export default class HomeController extends Controller {
   public async index() {
     console.log(this.app.swagger.rules)
     // validate 需要安装egg-validate插件
-    this.app.swagger.validate({ body: ctx.request.body, query: ctx.request.query }, this.ctx);
+    // 以下是validate返回值, 也可传入errorHandle函数, 此函数是选填, 调用时传入validate返回值与ctx
+    // [{ message: 'should be one of 1, 2, 3', code: 'invalid', field: 'userType', position: 'body' }, { message: 'required', field: 'userId', code: 'missing_field', position: 'query' }]
+    this.app.swagger.validate({ body: ctx.request.body, query: ctx.request.query }, this.ctx, errorHandle);
     this.ctx.body = 'Hi World!';
   }
 }
