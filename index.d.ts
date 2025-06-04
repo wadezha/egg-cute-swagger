@@ -1,7 +1,6 @@
 
 import { Context } from "egg";
 
-
 interface ValidateDataOptions {
   body?: any;
   query?: any;
@@ -11,7 +10,8 @@ interface ValidateDataOptions {
 
 declare class SwaggerClient {
   rules: any;
-  validate(data: ValidateDataOptions, ctx: Context, callback?: Function);
+  definitions: any;
+  validate(data: ValidateDataOptions, ctx: Context, callback?: Function, rule?: any);
 }
 
 interface SwaggerApiInfoOptions {

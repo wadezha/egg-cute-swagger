@@ -83,13 +83,13 @@ exports.swagger = {
 
 ```ts
 import { Controller } from 'egg';
-import { prefix, router, permission, request, response, deprecated, ignore, security, produce, consume } from 'egg-cute-router';
+import { prefix, router, permission, request, response, deprecated, ignored, security, produce, consume } from 'egg-cute-router';
 
-// 若在Controller上配置deprecated, ignore, security, produce, consume 则此Controller中所有的路由都会默认此配置, 如果路由有定制配置时以定制配置为准
+// 若在Controller上配置deprecated, ignored, security, produce, consume 则此Controller中所有的路由都会默认此配置, 如果路由有定制配置时以定制配置为准
 // 注：以下案例是最高配置, 除router外都是选配
 @prefix('/home', 'summary', 'desc', 'group')
 @deprecated()
-@ignore()
+@ignored()
 @security('apiname')
 @produce('application/json,application/xml')
 @consume('application/json,application/xml')
@@ -104,13 +104,14 @@ export default class HomeController extends Controller {
   @response('string', 'name3', 'desc', 'example', true, { min: 1, format: '' })
   @response('User', 'uVo')
   @deprecated()
-  @ignore()
+  @ignored()
   @security('apikey')
   @produce('application/json,application/xml')
   @consume('application/json,application/xml')
   @permission('index')
   public async index() {
     console.log(this.app.swagger.rules)
+    console.log(this.app.swagger.definitions)
     // validate 需要安装egg-validate插件
     // 以下是validate返回值, 也可传入errorHandle函数, 此函数是选填, 调用时传入validate返回值与ctx
     // [{ message: 'should be one of 1, 2, 3', code: 'invalid', field: 'userType', position: 'body' }, { message: 'required', field: 'userId', code: 'missing_field', position: 'query' }]

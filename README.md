@@ -83,14 +83,14 @@ exports.swagger = {
 
 ```ts
 import { Controller } from 'egg';
-import { prefix, router, permission, request, response, deprecated, ignore, security, produce, consume } from 'egg-cute-router';
+import { prefix, router, permission, request, response, deprecated, ignored, security, produce, consume } from 'egg-cute-router';
 
-// If deprecated, ignore, security, produce, consume are configured on the Controller, all routes in this Controller will use this configuration by default. 
+// If deprecated, ignored, security, produce, consume are configured on the Controller, all routes in this Controller will use this configuration by default. 
 // If the route has a custom configuration, the custom configuration will be used first.
 // Note: The following cases are the highest configurations, except for router, all other configurations are optional.
 @prefix('/home', 'summary', 'desc', 'group')
 @deprecated()
-@ignore()
+@ignored()
 @security('apiname')
 @produce('application/json,application/xml')
 @consume('application/json,application/xml')
@@ -105,13 +105,14 @@ export default class HomeController extends Controller {
   @response('string', 'name3', 'desc', 'example', true, { min: 1, format: '' })
   @response('User', 'uVo')
   @deprecated()
-  @ignore()
+  @ignored()
   @security('apikey')
   @produce('application/json,application/xml')
   @consume('application/json,application/xml')
   @permission('index')
   public async index() {
     console.log(this.app.swagger.rules)
+    console.log(this.app.swagger.definitions)
     // The validate method requires the egg-validate plugin to be installed
     // The following is the validate return value. You can also pass in the errorHandle function. This function is optional. When calling, pass in the validate return value and ctx
     // [{ message: 'should be one of 1, 2, 3', code: 'invalid', field: 'userType', position: 'body' }, { message: 'required', field: 'userId', code: 'missing_field', position: 'query' }]
