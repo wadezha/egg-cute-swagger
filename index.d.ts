@@ -11,7 +11,7 @@ interface ValidateDataOptions {
 declare class SwaggerClient {
   rules: any;
   definitions: any;
-  validate(data: ValidateDataOptions, ctx: Context, callback?: Function, rule?: any);
+  validate(data: ValidateDataOptions, ctx: Context, callback?: any, rule?: any);
 }
 
 interface SwaggerApiInfoOptions {
