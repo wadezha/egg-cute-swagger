@@ -1,6 +1,6 @@
 {
   "name": "egg-cute-swagger",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "description": "swagger for egg",
   "eggPlugin": {
     "name": "swagger"
